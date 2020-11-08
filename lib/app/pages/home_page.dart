@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:desafio_modulo9/app/pages/detalhes_page.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<dynamic> dados;
+
+  final List<String> filtros = [
+    "Melhor Avaliação",
+    "Mais Rápido",
+    "Mais Barato"
+  ];
 
   @override
   void initState() {
@@ -26,20 +33,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Escolha uma Revenda"),
+        title: Text("Escolha uma Revenda",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            )),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: PopupMenuButton(
-              icon: Icon(Icons.swap_vert),
-              itemBuilder: (BuildContext context) {
-                return [
-                  PopupMenuItem(child: Text("Melhor Avaliação")),
-                  PopupMenuItem(child: Text("Mais Rápido")),
-                  PopupMenuItem(child: Text("Mais Barato")),
-                ];
-              },
-            ),
+          PopupMenuButton(
+            icon: Icon(Icons.swap_vert),
+            itemBuilder: (_) {
+              return filtros.map(
+                (f) {
+                  return PopupMenuItem(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(f),
+                        Checkbox(value: false, onChanged: null)
+                      ],
+                    ),
+                  );
+                },
+              ).toList();
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -47,8 +62,17 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.help),
               itemBuilder: (BuildContext context) {
                 return [
-                  PopupMenuItem(child: Text("Suporte")),
-                  PopupMenuItem(child: Text("Termos de Serviço")),
+                  PopupMenuItem(
+                    child: Text(
+                      "Suporte",
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  PopupMenuItem(
+                      child: Text(
+                    "Termos de Serviço",
+                    style: TextStyle(color: Colors.blue),
+                  )),
                 ];
               },
             ),
@@ -67,6 +91,10 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       "Botijões de 13kg em:",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
                     ),
                     Text(
                       "Av Paulista,1001",
@@ -77,6 +105,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       "Paulista, São Paulo, SP",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
                     ),
                   ],
                 ),
